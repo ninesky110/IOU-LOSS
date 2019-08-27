@@ -1,3 +1,4 @@
+import tensorflow as tf
 class Net():
     def compute_loss(self, binary_label, score_final, name):
         """
