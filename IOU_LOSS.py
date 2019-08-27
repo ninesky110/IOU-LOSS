@@ -12,11 +12,12 @@ class Net():
             # 计算IOU损失
             '''
             print("score_final.get_shape().as_list()", score_final.get_shape().as_list())
+            binary_soft = tf.nn.softmax(logits=score_final, name='binary_soft')
             XV = tf.reshape(
-                score_final,
-                shape=[score_final.get_shape().as_list()[0],
-                       score_final.get_shape().as_list()[1] * score_final.get_shape().as_list()[2],
-                       score_final.get_shape().as_list()[3]])#decode_logits_reshape的shape也应当为(B, H*W, 2)
+                binary_soft,
+                shape=[binary_soft.get_shape().as_list()[0],
+                       binary_soft.get_shape().as_list()[1] * binary_soft.get_shape().as_list()[2],
+                       binary_soft.get_shape().as_list()[3]])#decode_logits_reshape的shape也应当为(B, H*W, 2)
             Batch_size,nums_pixels,chanel=XV.get_shape().as_list()
             XV=tf.slice(XV,[0,0,1],[Batch_size,nums_pixels,1])#(B,H*W,1)
             XV = tf.squeeze(XV, axis=[2])#(B,H*W)
